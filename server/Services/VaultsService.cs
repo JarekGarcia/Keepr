@@ -68,6 +68,10 @@ public class VaultsService
         {
             throw new Exception($"Invalid Id: {vaultId}");
         }
+        if (vault.IsPrivate == true)
+        {
+            throw new Exception($"This vault is Private");
+        }
         return vault;
     }
 }

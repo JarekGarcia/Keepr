@@ -35,7 +35,7 @@ CREATE TABLE
         name CHAR(50) NOT NULL,
         description VARCHAR(1000) NOT NULL,
         img VARCHAR(1000) NOT NULL,
-        isPrivate BOOLEAN DEFAULT false NOT NULL,
+        isPrivate BOOLEAN DEFAULT false,
         FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
     ) default charset utf8 COMMENT '';
 

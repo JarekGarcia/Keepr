@@ -1,6 +1,6 @@
 <template>
     <div class="modal" id="keepsDetailsModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-xl" role="document">
+        <div v-if="keep" class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-body p-0">
                     <div class="container-fluid">
@@ -25,10 +25,17 @@
                                     <div class="col-6">
                                         <p class="fw-bold">form placeholder</p>
                                     </div>
-                                    <div class="col-6 d-flex">
-                                        <img class="rounded-circle profile-pic" :src="keep.creator.picture"
-                                            :alt="keep.creator.name" :title="keep.creator.name">
-                                        <p>{{ keep.creator.name }}</p>
+                                    <div role="button" @click="goToProfilePage(keep.creatorId)" class="col-6 d-flex">
+                                        <img class="rounded-circle profile-pic" :src="keep.creator?.picture"
+                                            :alt="keep.creator?.name" :title="keep.creator?.name">
+                                        <p>{{ keep.creator?.name }}</p>
+                                    </div>
+                                </section>
+                                <section class="row">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <button @click="deleteKeep(keep.id)" v-if="account.id == keep.creatorId"
+                                            class="btn btn-danger fw-bold">Delete
+                                            Keep</button>
                                     </div>
                                 </section>
                             </div>
@@ -44,10 +51,40 @@
 <script>
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
+import Pop from '../utils/Pop';
+import { keepsService } from '../services/KeepsService';
+import { Modal } from 'bootstrap';
+import { useRoute, useRouter } from 'vue-router';
 export default {
     setup() {
+        const route = useRoute()
+        const router = useRouter()
         return {
-            keep: computed(() => AppState.activeKeep)
+            keep: computed(() => AppState.activeKeep),
+            account: computed(() => AppState.account),
+
+            async deleteKeep(keepId) {
+                try {
+                    const yes = await Pop.confirm("Are you sure you want to Delete this Keep?")
+                    if (!yes) {
+                        return
+                    }
+                    await keepsService.deleteKeep(keepId)
+                    Pop.success("Keep has been Deleted!")
+                    Modal.getOrCreateInstance("#keepsDetailsModal").hide()
+                } catch (error) {
+                    Pop.error(error)
+                }
+            },
+
+            async goToProfilePage(profileId) {
+                try {
+                    await router.push(`/api/profiles/${profileId}`)
+                    Modal.getOrCreateInstance('#keepsDetailsModal').hide()
+                } catch (error) {
+                    Pop.error(error)
+                }
+            }
         }
     }
 };

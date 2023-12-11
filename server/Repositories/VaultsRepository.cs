@@ -76,6 +76,7 @@ public class VaultsRepository
         {
             keeps.Id = vaultkeeps.KeepId;
             keeps.Creator = profile;
+            keeps.VaultKeepId = vaultkeeps.Id;
             return keeps;
         }, new { vaultId }).ToList();
         return keeps;

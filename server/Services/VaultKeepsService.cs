@@ -6,14 +6,21 @@ namespace Keepr.Services;
 public class VaultKeepsService
 {
     private readonly VaultKeepsRepository _repository;
+    private readonly VaultsService _vaultsService;
 
-    public VaultKeepsService(VaultKeepsRepository repository)
+    public VaultKeepsService(VaultKeepsRepository repository, VaultsService vaultsService)
     {
         _repository = repository;
+        _vaultsService = vaultsService;
     }
 
     internal VaultKeep CreateVaultKeep(VaultKeep vaultKeepData)
     {
+        Vault vault = _vaultsService.GetVaultById(vaultKeepData.VaultId);
+        if (vault.CreatorId != vaultKeepData.CreatorId)
+        {
+            throw new Exception("Not your vault to add keeps into");
+        }
         VaultKeep vaultKeep = _repository.CreateVaultKeep(vaultKeepData);
         return vaultKeep;
     }

@@ -1,3 +1,5 @@
+import { Profile } from "./Profile"
+
 export class Account {
   constructor(data) {
     this.id = data.id

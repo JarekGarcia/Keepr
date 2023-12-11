@@ -56,6 +56,14 @@ public class KeepsService
         return keep;
     }
 
+    internal Keep GetKeepByIdAndIncrementViews(int keepId)
+    {
+        Keep keep = GetKeepById(keepId);
+        keep.Views++;
+        _repository.EditKeep(keep);
+        return keep;
+    }
+
     internal List<Keep> GetKeeps()
     {
         List<Keep> keeps = _repository.GetKeeps();

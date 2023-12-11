@@ -5,6 +5,16 @@
         <p class="m-0 fw-bold">Home</p>
       </div>
     </router-link>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle fw-bold" type="button" id="dropdownMenuButton"
+        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Create
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a data-bs-toggle="modal" data-bs-target="#keepsCreateModal" class="dropdown-item fw-bold" href="#">Keep</a>
+        <a data-bs-toggle="modal" data-bs-target="#vaultsCreateModal" class="dropdown-item fw-bold" href="#">Vault</a>
+      </div>
+    </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
