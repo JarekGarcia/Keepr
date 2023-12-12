@@ -1,15 +1,13 @@
 <template>
-    <div class="container-fluid">
+    <div v-if="profile" class="container-fluid">
         <section class="row justify-content-center">
             <div class="col-6 d-flex mt-5">
-                <img class="cover-img img-fluid rounded"
-                    src="https://images.unsplash.com/photo-1682685797277-f2bf89b24017?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt="">
+                <img class="cover-img img-fluid rounded" :src="profile.coverImg" alt="">
             </div>
         </section>
         <section class="row justify-content-center">
             <div class="col-2 text-center mt-1">
-                <img class="rounded-circle" :src="profile.picture" alt="">
+                <img class="rounded-circle profile-pic" :src="profile.picture" alt="">
             </div>
         </section>
         <section class="row justify-content-center">
@@ -31,7 +29,7 @@
             </div>
         </section>
         <section class="row">
-            <div v-for="vault in vaults" :key="vault.id" class="col-2">
+            <div v-for=" vault  in  vaults " :key="vault.id" class="col-2">
                 <VaultsCard :vaultsProp="vault" />
             </div>
         </section>
@@ -39,7 +37,7 @@
             <p class="fw-bold fs-1 mt-5">Keeps:</p>
         </section>
         <section class="row">
-            <div v-for="keep in keeps" :key="keep.id" class="col-2">
+            <div v-for=" keep  in  keeps " :key="keep.id" class="col-2">
                 <KeepsCard :keepsProp="keep" />
             </div>
         </section>
@@ -58,8 +56,8 @@ import KeepsCard from '../components/KeepsCard.vue';
 export default {
     setup() {
         const route = useRoute();
-        onMounted(() => {
-            getUserProfile();
+        onMounted(async () => {
+            await getUserProfile();
             getUserVaults();
             getUserKeeps();
         });
@@ -75,12 +73,18 @@ export default {
         async function getUserVaults() {
             try {
                 const profileId = route.params.profileId;
-                await profilesService.getUserVaults(profileId);
+                const userId = AppState.activeProfile.id
+                if (profileId != userId) {
+                    profilesService.getUserVaults(profileId);
+                } else
+                    await profilesService.getMyVaults()
             }
             catch (error) {
                 Pop.error(error);
             }
         }
+
+
         async function getUserKeeps() {
             try {
                 const profileId = route.params.profileId;
@@ -91,6 +95,7 @@ export default {
             }
         }
         return {
+            account: computed(() => AppState.account),
             profile: computed(() => AppState.activeProfile),
             vaults: computed(() => AppState.activeProfileVaults),
             keeps: computed(() => AppState.activeProfileKeeps)
@@ -108,5 +113,10 @@ export default {
     object-fit: center;
     height: 30vh;
     width: 100%;
+}
+
+.profile-pic {
+    height: 10vh;
+    width: 10vw;
 }
 </style>

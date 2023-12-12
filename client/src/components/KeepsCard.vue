@@ -1,5 +1,5 @@
 <template>
-    <div @click="getKeepById(keepsProp.id)" class="keeps-bg mt-5 rounded" data-bs-toggle="modal"
+    <div @click="getKeepById(keepsProp.id), getUserVaults()" class="keeps-bg rounded mb-5" data-bs-toggle="modal"
         data-bs-target="#keepsDetailsModal" role="button">
         <div class="row">
             <div class="col-12 d-flex justify-content-between mt-keep text-white fw-bold">
@@ -20,6 +20,7 @@ import { computed, reactive, onMounted, KeepAlive } from 'vue';
 import { Keep } from '../models/Keep'
 import Pop from '../utils/Pop';
 import { keepsService } from '../services/KeepsService';
+import { profilesService } from '../services/ProfilesService';
 
 export default {
     props: { keepsProp: { type: Keep, required: true } },
@@ -27,6 +28,7 @@ export default {
 
         return {
             keepsCoverImg: computed(() => `url(${props.keepsProp.img})`),
+            account: computed(() => AppState.account),
 
             async getKeepById(keepId) {
                 try {
@@ -35,8 +37,19 @@ export default {
                 } catch (error) {
                     Pop.error(error)
                 }
+            },
+
+            async getUserVaults() {
+                try {
+                    const profileId = AppState.account.id
+                    await profilesService.getUserVaults(profileId)
+                } catch (error) {
+                    Pop.error(error)
+                }
             }
         }
+
+
     }
 };
 </script>

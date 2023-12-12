@@ -30,7 +30,7 @@ public class AccountController : ControllerBase
       return BadRequest(e.Message);
     }
   }
-  [Authorize]
+
   [HttpGet("vaults")]
   public async Task<ActionResult<List<Vault>>> GetMyVaults()
   {
@@ -39,6 +39,23 @@ public class AccountController : ControllerBase
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
       List<Vault> vaults = _vaultsService.GetMyVaults(userInfo.Id);
       return vaults;
+    }
+    catch (Exception e)
+    {
+
+      return BadRequest(e.Message);
+    }
+  }
+
+  [Authorize]
+  [HttpPut]
+  public async Task<ActionResult<Account>> EditAccount([FromBody] Account accountData)
+  {
+    try
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      Account profile = _accountService.EditAccount(accountData, userInfo);
+      return Ok(profile);
     }
     catch (Exception e)
     {

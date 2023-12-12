@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <section class="row">
-      <div v-for="keep in keeps" :key="keep.id" class="col-12 col-md-3">
+      <div @click="getUserVaults()" v-for="keep in keeps" :key="keep.id" class="col-12 col-md-3" data-bs-toggle="modal"
+        data-bs-target="#keepsDetailsModal" role="button">
         <KeepsCard :keepsProp="keep" />
       </div>
     </section>
@@ -14,6 +15,7 @@ import Pop from '../utils/Pop';
 import { keepsService } from '../services/KeepsService';
 import KeepsCard from '../components/KeepsCard.vue';
 import { AppState } from '../AppState';
+import { profilesService } from '../services/ProfilesService';
 
 export default {
   setup() {
@@ -29,7 +31,17 @@ export default {
       }
     }
     return {
-      keeps: computed(() => AppState.keeps)
+      keeps: computed(() => AppState.keeps),
+
+      async getUserVaults() {
+        try {
+          const profileId = AppState.account.id
+          await profilesService.getUserVaults(profileId)
+        } catch (error) {
+          Pop.error(error)
+        }
+      }
+
     };
   },
   components: { KeepsCard }

@@ -6,7 +6,7 @@ CREATE TABLE
         name varchar(255) COMMENT 'User Name',
         email varchar(255) COMMENT 'User Email',
         picture varchar(255) COMMENT 'User Picture',
-        coverImg VARCHAR(255)
+        coverImg VARCHAR(1000)
     ) default charset utf8 COMMENT '';
 
 CREATE TABLE
@@ -35,7 +35,7 @@ CREATE TABLE
         name CHAR(50) NOT NULL,
         description VARCHAR(1000) NOT NULL,
         img VARCHAR(1000) NOT NULL,
-        isPrivate BOOLEAN DEFAULT false,
+        isPrivate BOOLEAN DEFAULT false NOT NULL,
         FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
     ) default charset utf8 COMMENT '';
 

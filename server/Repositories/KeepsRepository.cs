@@ -1,8 +1,3 @@
-
-
-
-
-
 namespace Keepr.Services;
 
 public class KeepsRepository
@@ -50,7 +45,8 @@ public class KeepsRepository
         SET
         name = @Name,
         img = @Img,
-        description = @Description
+        description = @Description,
+        views = @Views
         WHERE id = @Id LIMIT 1;
 
         SELECT 

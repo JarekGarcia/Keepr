@@ -4,17 +4,19 @@
             <div class="col-4 vault-bg text-center rounded mt-5">
                 <div class="vault-index text-white bg-dark1 rounded">
                     <p class="fw-bold fs-1">{{ vault.name }}</p>
-                    <p>by: {{ vault.creator?.name }}</p>
+                    <p @click="goToProfilePage(vault.creatorId)" role="button">by: {{ vault.creator?.name }}</p>
                 </div>
             </div>
         </section>
         <section class="row">
             <div class="col-12 text-center mt-1">
-                <button class="btn btn-danger">Delete</button>
+                <button @click="deleteVault(vault.id)" class="btn btn-danger fw-bold">Delete VAULT</button>
             </div>
         </section>
         <section class="row">
-            <div v-for="keep in vaultKeeps" :key="keep.id" class="col-12 col-md-3">
+            <div v-for="keep in vaultKeeps" :key="keep.id" class="col-12 col-md-3 mt-5">
+                <button @click="removeKeepFromVault(keep.vaultKeepId)" class="btn btn-danger fw-bold">remove from
+                    vault</button>
                 <KeepsCard :keepsProp="keep" />
             </div>
         </section>
@@ -26,7 +28,7 @@
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
 import Pop from '../utils/Pop';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { vaultsService } from '../services/VaultsService'
 import KeepsCard from '../components/KeepsCard.vue';
 export default {
@@ -36,6 +38,7 @@ export default {
             getKeepsByVaultId()
         });
         const route = useRoute();
+        const router = useRouter()
         async function getVaultById() {
             try {
                 const vaultId = route.params.vaultId;
@@ -57,7 +60,42 @@ export default {
         return {
             vault: computed(() => AppState.activeVault),
             vaultCoverImg: computed(() => `url(${AppState.activeVault.img})`),
-            vaultKeeps: computed(() => AppState.vaultKeeps)
+            vaultKeeps: computed(() => AppState.vaultKeeps),
+
+            //NOTE wanna make a push to profile page from vault page
+            async goToProfilePage(profileId) {
+                try {
+                    return profileId
+                } catch (error) {
+                    Pop.error
+                }
+            },
+
+            async removeKeepFromVault(vaultKeepId) {
+                try {
+                    const yes = await Pop.confirm("are you sure you want to remove this keep?")
+                    if (!yes) {
+                        return
+                    }
+                    await vaultsService.removeKeepFromVault(vaultKeepId)
+                    Pop.success("keep removed!")
+                } catch (error) {
+                    Pop.error(error)
+                }
+            },
+
+            async deleteVault(vaultId) {
+                try {
+                    const yes = await Pop.confirm("are you sure you wanna delete this Vault?")
+                    if (!yes) {
+                        return
+                    }
+                    await vaultsService.deleteVault(vaultId)
+                    Pop.success("vault has been deleted!")
+                } catch (error) {
+                    Pop.error(error)
+                }
+            }
         };
     },
     components: { KeepsCard }

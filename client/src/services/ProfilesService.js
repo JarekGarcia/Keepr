@@ -13,8 +13,15 @@ class ProfilesService {
 
     async getUserVaults(profileId) {
         const res = await api.get(`api/profiles/${profileId}/vaults`)
-        AppState.activeProfileVaults = res.data.map(vault => new Vault(vault))
-        logger.log(AppState.activeProfileVaults)
+        logger.log(res.data)
+        AppState.activeProfileVaults = res.data
+        logger.log("This is the users Vaults!", AppState.activeProfileVaults)
+    }
+
+    async getMyVaults(profileId) {
+        const res = await api.get(`account/vaults`)
+        AppState.activeProfileVaults = res.data
+        logger.log(res.data)
     }
 
     async getUserKeeps(profileId) {

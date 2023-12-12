@@ -7,6 +7,7 @@ export class Keep {
         this.img = data.img
         this.views = data.views
         this.kept = data.kept
+        this.vaultKeepId = data.vaultKeepId
         this.creator = data.creator
     }
 }

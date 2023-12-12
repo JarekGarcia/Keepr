@@ -43,9 +43,10 @@ import { AppState } from '../AppState';
 import { computed, reactive, onMounted, ref } from 'vue';
 import Pop from '../utils/Pop';
 import { vaultsService } from '../services/VaultsService';
+import { Modal } from 'bootstrap';
 export default {
     setup() {
-        const editable = ref({})
+        const editable = ref({ isPrivate: false })
         return {
             editable,
 
@@ -53,6 +54,9 @@ export default {
                 try {
                     const vaultData = editable.value
                     await vaultsService.createVault(vaultData)
+                    Pop.success("Vault Created!")
+                    editable.value = {}
+                    Modal.getOrCreateInstance('#vaultsCreateModal').hide()
                 } catch (error) {
                     Pop.error(error)
                 }

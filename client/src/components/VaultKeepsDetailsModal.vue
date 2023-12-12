@@ -1,5 +1,5 @@
 <template>
-    <div class="modal" id="keepsDetailsModal" tabindex="-1" role="dialog">
+    <div class="modal" id="vaultKeepsDetailsModal" tabindex="-1" role="dialog">
         <div v-if="keep" class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-body p-0">
@@ -23,16 +23,7 @@
                                 </section>
                                 <section class="row">
                                     <div class="col-6">
-                                        <div class="form-group">
-                                            <label class="fw-bold" for="exampleFormControlSelect2S">Save in your
-                                                Vault?</label>
-                                            <div class="scroll">
-                                                <button @click="saveKeepInVault(vault.id, keep.id)" class="m-1 rounded"
-                                                    v-for="vault in vaults" :key="vault.id">
-                                                    {{ vault.name }}
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <p class="fw-bold">form placeholder</p>
                                     </div>
                                     <div role="button" @click="goToProfilePage(keep.creatorId)" class="col-6 d-flex">
                                         <img class="rounded-circle profile-pic" :src="keep.creator?.picture"
@@ -42,9 +33,8 @@
                                 </section>
                                 <section class="row">
                                     <div class="col-12 d-flex justify-content-center">
-                                        <button @click="deleteKeep(keep.id)" v-if="account.id == keep.creatorId"
-                                            class="btn btn-danger fw-bold">Delete
-                                            Keep</button>
+                                        <button @click="deleteKeepFromVault(keep.id)" v-if="account.id == keep.creatorId"
+                                            class="btn btn-danger fw-bold">Remove Keep </button>
                                     </div>
                                 </section>
                             </div>
@@ -59,53 +49,28 @@
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted, ref } from 'vue';
+import { computed, reactive, onMounted } from 'vue';
 import Pop from '../utils/Pop';
 import { keepsService } from '../services/KeepsService';
 import { Modal } from 'bootstrap';
 import { useRoute, useRouter } from 'vue-router';
-import { vaultsService } from '../services/VaultsService';
-import { profilesService } from '../services/ProfilesService';
-import { logger } from '../utils/Logger';
 export default {
     setup() {
-        const editable = ref({})
         const route = useRoute()
         const router = useRouter()
-        onMounted(() => {
-        })
-
-        async function getUserVaults() {
-            try {
-                const profileId = AppState.account.id
-                await profilesService.getUserVaults(profileId)
-            } catch (error) {
-                Pop.error(error)
-            }
-        }
         return {
-            editable,
             keep: computed(() => AppState.activeKeep),
             account: computed(() => AppState.account),
-            vaults: computed(() => AppState.activeProfileVaults),
 
-            async deleteKeep(keepId) {
+            async deleteKeepFromVault(keepId) {
                 try {
                     const yes = await Pop.confirm("Are you sure you want to Delete this Keep?")
                     if (!yes) {
                         return
                     }
-                    await keepsService.deleteKeep(keepId)
+                    await keepsService.deleteKeepFromVault(keepId)
                     Pop.success("Keep has been Deleted!")
                     Modal.getOrCreateInstance("#keepsDetailsModal").hide()
-                } catch (error) {
-                    Pop.error(error)
-                }
-            },
-
-            async getVaultById(vaultId) {
-                try {
-                    await vaultsService.getVaultById(vaultId)
                 } catch (error) {
                     Pop.error(error)
                 }
@@ -115,15 +80,6 @@ export default {
                 try {
                     await router.push(`/api/profiles/${profileId}`)
                     Modal.getOrCreateInstance('#keepsDetailsModal').hide()
-                } catch (error) {
-                    Pop.error(error)
-                }
-            },
-
-            async saveKeepInVault(vaultId, keepId) {
-                try {
-                    await vaultsService.saveKeepInVault(vaultId, keepId)
-                    Pop.success("Keep saved in your vault!")
                 } catch (error) {
                     Pop.error(error)
                 }
@@ -145,10 +101,5 @@ export default {
 
 .profile-pic {
     height: 3vh;
-}
-
-.scroll {
-    overflow-y: scroll;
-    height: 10vh;
 }
 </style>

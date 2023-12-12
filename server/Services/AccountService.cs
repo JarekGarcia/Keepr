@@ -1,3 +1,4 @@
+
 namespace Keepr.Services;
 
 public class AccountService
@@ -29,6 +30,15 @@ public class AccountService
     Account original = GetProfileByEmail(userEmail);
     original.Name = editData.Name?.Length > 0 ? editData.Name : original.Name;
     original.Picture = editData.Picture?.Length > 0 ? editData.Picture : original.Picture;
+    return _repo.Edit(original);
+  }
+
+  internal Account EditAccount(Account accountData, Account userInfo)
+  {
+    Account original = GetProfileByEmail(userInfo.Email);
+    original.Name = accountData.Name ?? original.Name;
+    original.Picture = accountData.Picture ?? original.Picture;
+    original.CoverImg = accountData.CoverImg ?? original.CoverImg;
     return _repo.Edit(original);
   }
 }
