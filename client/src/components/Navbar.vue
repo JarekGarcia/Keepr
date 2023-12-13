@@ -5,7 +5,7 @@
         <p class="m-0 fw-bold">Home</p>
       </div>
     </router-link>
-    <div class="dropdown">
+    <div v-if="accountId" class="dropdown">
       <button class="btn btn-secondary dropdown-toggle fw-bold" type="button" id="dropdownMenuButton"
         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Create

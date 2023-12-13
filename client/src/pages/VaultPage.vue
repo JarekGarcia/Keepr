@@ -2,14 +2,14 @@
     <div class="container-fluid">
         <section class="row justify-content-center">
             <div class="col-4 vault-bg text-center rounded mt-5">
-                <div class="vault-index text-white bg-dark1 rounded">
-                    <p class="fw-bold fs-1">{{ vault.name }}</p>
-                    <p @click="goToProfilePage(vault.creatorId)" role="button">by: {{ vault.creator?.name }}</p>
+                <div class=" text-white bg-dark1 rounded p-0">
+                    <p class="fw-bold fs-1 m-0">{{ vault.name }}</p>
+                    <p @click="goToProfilePage(vault.creatorId)" role="button" class="m-0">by: {{ vault.creator?.name }}</p>
                 </div>
             </div>
         </section>
         <section class="row">
-            <div class="col-12 text-center mt-1">
+            <div class="col-12 text-center mt-3">
                 <button @click="deleteVault(vault.id)" class="btn btn-danger fw-bold">Delete VAULT</button>
             </div>
         </section>
@@ -47,9 +47,9 @@ export default {
             }
             catch (error) {
                 Pop.error(error);
-                if (error.response.data.includes('This vault is Private')) {
+                if (error.response.data.includes('Invalid Id:')) {
                     router.push({ name: 'Home' })
-                    Pop.error("That is a private vault!")
+                    Pop.error("Invalid Vault!")
                 }
             }
         }
@@ -111,7 +111,7 @@ export default {
 <style lang="scss" scoped>
 .vault-bg {
     background-image: v-bind(vaultCoverImg);
-    height: 20vh;
+    height: 30vh;
     width: 30vw;
     object-fit: cover;
     background-position: center;

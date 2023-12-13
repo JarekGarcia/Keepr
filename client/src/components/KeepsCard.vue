@@ -68,7 +68,7 @@ export default {
 }
 
 .mt-keep {
-    margin-top: 16vh;
+    margin-top: 13vh;
 }
 
 .bg-dark1 {
