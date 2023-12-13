@@ -17,10 +17,10 @@
         </section>
         <section class="row justify-content-center">
             <div class="col-2 text-end">
-                <p>0 Vaults</p>
+                <p>{{ vaults.length }} Vaults</p>
             </div>
             <div class="col-2">
-                <p>0 Keeps</p>
+                <p>{{ keeps.length }} Keeps</p>
             </div>
         </section>
         <section class="row">

@@ -73,7 +73,7 @@ public class VaultsService
         }
         if (vault.IsPrivate == true)
         {
-            throw new Exception($"Invalid Id: This vault is Private");
+            throw new Exception("Invalid Id This vault is Private");
         }
         return vault;
     }
@@ -86,7 +86,7 @@ public class VaultsService
         }
         if (vault.IsPrivate == true && vault.CreatorId != userId)
         {
-            throw new Exception($"This vault is Private");
+            throw new Exception("Invalid Id This vault is Private");
         }
         return vault;
     }

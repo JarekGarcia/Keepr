@@ -26,7 +26,7 @@
                                         <div class="form-group">
                                             <label class="fw-bold" for="exampleFormControlSelect2S">Save in your
                                                 Vault?</label>
-                                            <div class="scroll">
+                                            <div class="dropdown">
                                                 <button @click="saveKeepInVault(vault.id, keep.id)" class="m-1 rounded"
                                                     v-for="vault in vaults" :key="vault.id">
                                                     {{ vault.name }}

@@ -30,7 +30,7 @@ class VaultsService {
     async createVault(vaultData) {
         const res = await api.post('api/vaults', vaultData)
         logger.log("this is the created vault!!", res.data)
-        AppState.activeProfileVaults = res.data
+        // AppState.activeProfileVaults = res.data
     }
 
     async deleteVault(vaultId) {
