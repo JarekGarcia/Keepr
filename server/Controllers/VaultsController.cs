@@ -37,7 +37,7 @@ public class VaultsController : ControllerBase
         try
         {
             Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-            Vault vault = _vaultsService.GetVaultById(vaultId);
+            Vault vault = _vaultsService.GetVaultByIdAndValidate(vaultId, userInfo?.Id);
             return Ok(vault);
         }
         catch (Exception e)
@@ -54,7 +54,7 @@ public class VaultsController : ControllerBase
         try
         {
             Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-            Vault vault = _vaultsService.EditVault(vaultId, userInfo.Id, vaultData);
+            Vault vault = _vaultsService.EditVault(vaultId, userInfo?.Id, vaultData);
             return Ok(vault);
         }
         catch (Exception e)
@@ -71,7 +71,7 @@ public class VaultsController : ControllerBase
         try
         {
             Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-            string Message = _vaultsService.DeleteVault(vaultId, userInfo.Id);
+            string Message = _vaultsService.DeleteVault(vaultId, userInfo?.Id);
             return Ok(Message);
         }
         catch (Exception e)
@@ -82,11 +82,12 @@ public class VaultsController : ControllerBase
     }
 
     [HttpGet("{vaultId}/keeps")]
-    public ActionResult<List<Keep>> GetKeepsByVaultId(int vaultId)
+    public async Task<ActionResult<List<Keep>>> GetKeepsByVaultId(int vaultId)
     {
         try
         {
-            List<Keep> keeps = _vaultsService.GetKeepsByVaultId(vaultId);
+            Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+            List<Keep> keeps = _vaultsService.GetKeepsByVaultId(vaultId, userInfo?.Id);
             return keeps;
         }
         catch (Exception e)

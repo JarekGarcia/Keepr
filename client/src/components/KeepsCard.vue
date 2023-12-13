@@ -42,7 +42,7 @@ export default {
             async getUserVaults() {
                 try {
                     const profileId = AppState.account.id
-                    await profilesService.getUserVaults(profileId)
+                    await profilesService.getMyVaults(profileId)
                 } catch (error) {
                     Pop.error(error)
                 }

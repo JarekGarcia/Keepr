@@ -47,9 +47,9 @@ public class VaultsService
         return vault;
     }
 
-    internal List<Keep> GetKeepsByVaultId(int vaultId)
+    internal List<Keep> GetKeepsByVaultId(int vaultId, string userId)
     {
-        Vault vault = GetVaultById(vaultId);
+        Vault vault = GetVaultByIdAndValidate(vaultId, userId);
         if (vault == null)
         {
             throw new Exception($"invalid vault Id:{vaultId}");
@@ -72,6 +72,19 @@ public class VaultsService
             throw new Exception($"Invalid Id: {vaultId}");
         }
         if (vault.IsPrivate == true)
+        {
+            throw new Exception($"This vault is Private");
+        }
+        return vault;
+    }
+    internal Vault GetVaultByIdAndValidate(int vaultId, string userId)
+    {
+        Vault vault = _repository.GetVaultById(vaultId);
+        if (vault == null)
+        {
+            throw new Exception($"Invalid Id: {vaultId}");
+        }
+        if (vault.IsPrivate == true && vault.CreatorId != userId)
         {
             throw new Exception($"This vault is Private");
         }

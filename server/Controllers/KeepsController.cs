@@ -67,7 +67,7 @@ public class KeepsController : ControllerBase
         try
         {
             Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-            Keep keep = _keepsService.EditKeep(keepId, userInfo.Id, keepData);
+            Keep keep = _keepsService.EditKeep(keepId, userInfo?.Id, keepData);
             return keep;
         }
         catch (Exception e)
@@ -84,7 +84,7 @@ public class KeepsController : ControllerBase
         try
         {
             Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-            string Message = _keepsService.DeleteKeep(keepId, userInfo.Id);
+            string Message = _keepsService.DeleteKeep(keepId, userInfo?.Id);
             return Ok(Message);
         }
         catch (Exception e)

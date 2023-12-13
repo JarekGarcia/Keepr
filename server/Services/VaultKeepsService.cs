@@ -14,9 +14,9 @@ public class VaultKeepsService
         _vaultsService = vaultsService;
     }
 
-    internal VaultKeep CreateVaultKeep(VaultKeep vaultKeepData)
+    internal VaultKeep CreateVaultKeep(VaultKeep vaultKeepData, string userId)
     {
-        Vault vault = _vaultsService.GetVaultById(vaultKeepData.VaultId);
+        Vault vault = _vaultsService.GetVaultByIdAndValidate(vaultKeepData.VaultId, userId);
         if (vault.CreatorId != vaultKeepData.CreatorId)
         {
             throw new Exception("Not your vault to add keeps into");

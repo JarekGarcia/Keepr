@@ -15,6 +15,11 @@
         <a data-bs-toggle="modal" data-bs-target="#vaultsCreateModal" class="dropdown-item fw-bold" href="#">Vault</a>
       </div>
     </div>
+    <router-link v-if="accountId" :to="{ name: 'MyProfilePage', params: { profileId: `${accountId}` } }">
+      <div class="mx-3">
+        <button class="btn btn-primary fw-bold">My Profile</button>
+      </div>
+    </router-link>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -30,9 +35,10 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
+import { AppState } from '../AppState';
 export default {
   setup() {
 
@@ -48,7 +54,8 @@ export default {
         theme.value = theme.value == 'light' ? 'dark' : 'light'
         document.documentElement.setAttribute('data-bs-theme', theme.value)
         saveState('theme', theme.value)
-      }
+      },
+      accountId: computed(() => AppState.account.id)
     }
   },
   components: { Login }

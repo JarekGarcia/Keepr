@@ -74,7 +74,7 @@ export default {
             try {
                 const profileId = route.params.profileId;
                 const userId = AppState.activeProfile.id
-                profilesService.getUserVaults(profileId);
+                profilesService.getMyVaults(profileId);
 
             }
             catch (error) {

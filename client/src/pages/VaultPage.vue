@@ -39,6 +39,7 @@ export default {
         });
         const route = useRoute();
         const router = useRouter()
+
         async function getVaultById() {
             try {
                 const vaultId = route.params.vaultId;
@@ -46,6 +47,10 @@ export default {
             }
             catch (error) {
                 Pop.error(error);
+                if (error.response.data.includes('This vault is Private')) {
+                    router.push({ name: 'Home' })
+                    Pop.error("That is a private vault!")
+                }
             }
         }
 
