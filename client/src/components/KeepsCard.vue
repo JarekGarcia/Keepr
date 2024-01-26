@@ -1,9 +1,9 @@
 <template>
-    <div @click="getKeepById(keepsProp.id), getUserVaults()" class="keeps-bg rounded mb-5" data-bs-toggle="modal"
-        data-bs-target="#keepsDetailsModal" role="button">
+    <div @click="getKeepById(keepsProp.id), getUserVaults()" class="container-fluid keeps-bg rounded mb-5"
+        data-bs-toggle="modal" data-bs-target="#keepsDetailsModal" role="button">
         <div class="row">
-            <div class="col-12 d-flex justify-content-between mt-keep text-white fw-bold">
-                <p class="m-0 mx-1 p-2 bg-dark1 rounded">
+            <div class="col-12 d-flex justify-content-between align-items-center mt-keep text-white fw-bold p-0">
+                <p class="m-0 px-1 bg-dark1 rounded">
                     {{ keepsProp.name }}</p>
                 <img class="profile-pic rounded-circle mx-2" :src="keepsProp.creator.picture" :alt="keepsProp.name"
                     :title="keepsProp.creator.name">
@@ -58,17 +58,18 @@ export default {
 <style lang="scss" scoped>
 .keeps-bg {
     background-image: v-bind(keepsCoverImg);
-    height: 20vh;
+    height: 15rem;
     background-position: center;
     object-fit: cover;
 }
 
 .profile-pic {
-    height: 3vh;
+    height: 2rem;
+    width: 2rem;
 }
 
 .mt-keep {
-    margin-top: 13vh;
+    margin-top: 12rem;
 }
 
 .bg-dark1 {

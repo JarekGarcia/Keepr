@@ -9,38 +9,45 @@
                                 <img class="img-fluid rounded-start keep-img" :src="keep.img" alt="">
                             </div>
                             <div class="col-6">
-                                <section class="row">
+                                <section class="row mb-3">
                                     <div class="col-12 d-flex justify-content-around">
                                         <p class="fw-bold"><i class="mdi mdi-eye-outline"></i>{{ keep.views }}</p>
                                         <p class="fw-bold"><i class="mdi mdi-safe"></i>{{ keep.kept }}</p>
                                     </div>
                                 </section>
-                                <section class="row">
+                                <section class="row mb-3">
                                     <div class="col-12 text-center">
                                         <p class="fw-bold">{{ keep.name }}</p>
                                         <p>{{ keep.description }}</p>
                                     </div>
                                 </section>
-                                <section class="row">
+                                <section class="row mb-3">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label class="fw-bold" for="exampleFormControlSelect2S">Save in your
-                                                Vault?</label>
                                             <div class="dropdown">
-                                                <button @click="saveKeepInVault(vault.id, keep.id)" class="m-1 rounded"
-                                                    v-for="vault in vaults" :key="vault.id">
-                                                    {{ vault.name }}
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    Save In A Vault?
                                                 </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <button @click="saveKeepInVault(vault.id, keep.id)"
+                                                        class="m-1 rounded dropdown-item" v-for="vault in vaults"
+                                                        :key="vault.id">
+                                                        {{ vault.name }}
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div role="button" @click="goToProfilePage(keep.creatorId)" class="col-6 d-flex">
+                                    <div role="button" @click="goToProfilePage(keep.creatorId)"
+                                        class="col-6 d-flex justify-content-end align-items-center">
                                         <img class="rounded-circle profile-pic" :src="keep.creator?.picture"
                                             :alt="keep.creator?.name" :title="keep.creator?.name">
-                                        <p>{{ keep.creator?.name }}</p>
+                                        <p class="fw-bold m-0">{{ keep.creator?.name }}</p>
                                     </div>
                                 </section>
-                                <section class="row">
+                                <section class="row mb-1">
                                     <div class="col-12 d-flex justify-content-center">
                                         <button @click="deleteKeep(keep.id)" v-if="account.id == keep.creatorId"
                                             class="btn btn-danger fw-bold">Delete
@@ -144,7 +151,8 @@ export default {
 }
 
 .profile-pic {
-    height: 3vh;
+    height: 4vh;
+    width: 3vw;
 }
 
 .scroll {

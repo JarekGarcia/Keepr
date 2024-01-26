@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <section class="row">
-      <div @click="getUserVaults()" v-for="keep in keeps" :key="keep.id" class="col-12 col-md-3" data-bs-toggle="modal"
+      <div @click="getUserVaults()" v-for="keep in keeps" :key="keep.id" class="col-12 col-md-4" data-bs-toggle="modal"
         data-bs-target="#keepsDetailsModal" role="button">
         <KeepsCard :keepsProp="keep" />
       </div>

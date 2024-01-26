@@ -2,7 +2,8 @@
   <nav class="navbar navbar-expand-sm navbar-dark bg-white px-3 mb-5">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center text-dark">
-        <p class="m-0 fw-bold">Home</p>
+        <i class="mdi mdi-alpha-k-circle-outline  fs fw-bold text-center">EEPR</i>
+
       </div>
     </router-link>
     <div v-if="accountId" class="dropdown">
@@ -80,6 +81,11 @@ a:hover {
 @media screen and (min-width: 768px) {
   nav {
     height: 64px;
+  }
+
+  .fs {
+    font-size: 3rem;
+
   }
 }
 </style>

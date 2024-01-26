@@ -1,7 +1,7 @@
 <template>
     <div v-if="profile" class="container-fluid">
         <section class="row justify-content-center">
-            <div class="col-6 d-flex mt-5">
+            <div class="col-6 d-flex">
                 <img class="cover-img img-fluid rounded" :src="profile.coverImg" alt="">
             </div>
         </section>
@@ -25,7 +25,7 @@
         </section>
         <section class="row">
             <div class="col-6">
-                <p class="fw-bold fs-1">Vaults:</p>
+                <p class="fw-bold fs-1">Vaults</p>
             </div>
         </section>
         <section class="row">
@@ -34,7 +34,7 @@
             </div>
         </section>
         <section class="row">
-            <p class="fw-bold fs-1 mt-5">Keeps:</p>
+            <p class="fw-bold fs-1 mt-5">Keeps</p>
         </section>
         <section class="row">
             <div v-for=" keep  in  keeps " :key="keep.id" class="col-2">
@@ -106,15 +106,14 @@ export default {
 
 <style lang="scss" scoped>
 .cover-img {
-    background-size: cover;
     background-position: center;
-    object-fit: center;
-    height: 30vh;
+    object-fit: cover;
+    height: 15rem;
     width: 100%;
 }
 
 .profile-pic {
-    height: 10vh;
-    width: 10vw;
+    height: 5rem;
+    width: 5rem;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
     <div class="container-fluid">
         <section class="row justify-content-center">
-            <div class="col-4 vault-bg text-center rounded mt-5">
+            <div class="col-4 vault-bg text-center rounded">
                 <div class=" text-white bg-dark1 rounded p-0">
-                    <p class="fw-bold fs-1 m-0">{{ vault.name }}</p>
+                    <p class="fw-bold fs-1 mt-5">{{ vault.name }}</p>
                     <p @click="goToProfilePage(vault.creatorId)" role="button" class="m-0">by: {{ vault.creator?.name }}</p>
                 </div>
             </div>
